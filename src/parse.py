@@ -4,7 +4,7 @@ import os
 from glob import glob
 
 def parse():
-    files = glob("provided/**/*.csv")
+    files = glob("../provided/**/*.csv")
     dfs = {}
 
     for f in files:
