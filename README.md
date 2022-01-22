@@ -15,7 +15,7 @@ kylesinger@rogers.com
 Team Sonic
 
 ## Project Title
-<Waste Map-Tracker>
+Waste Map-Tracker
 
 # Project Structure
 - data
@@ -35,7 +35,7 @@ Team Sonic
     - Components (contains the components used throughout the web application)
 
 # Running code
-To run the code, please issue the following commands in bash/sh/cmd.
+To run the backend server, please issue the following commands in bash/sh/cmd.
 ```
 python -V # must be version 3.*.*
 git clone git@github.com:Andrew-Fryer/OEC_2022.git
@@ -44,7 +44,6 @@ pip install -r requirements.txt
 cd src
 export FLASK_APP=app
 python -m flask run # runs backend
-python main.py # runs ......
 ```
 Please view output files in the `./output` directory.
 
