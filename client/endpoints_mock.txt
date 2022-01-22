@@ -14,9 +14,8 @@ Resoponse to ^^ points
 {
     [{
         id,
-        name,
-        longitude,
-        latitude,
+        lng:longitude,
+        lat:latitude,
         type (recycling, etc),
         plastic (amount produced),
         risk (integer or decimal),
