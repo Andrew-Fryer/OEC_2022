@@ -89,10 +89,11 @@ const Home = (props) => {
     return (
         <div>
             {/* TODO change myData to data */}
-            <InputParams onSetData={(data) => setData(myData)} />
-            <GlobeHeader markerColors={markerColors} currentPoint={currentPoint} />
+            <InputParams id="/input" onSetData={(data) => setData(data)} />
+            <GlobeHeader id="/globe" markerColors={markerColors} currentPoint={currentPoint} />
 
             <Globe
+                id="/results"
                 globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
                 pointsData={data.points}
                 pointLat={(point) => point.lat || point.latitude}
