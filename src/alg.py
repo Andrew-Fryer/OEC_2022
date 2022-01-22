@@ -3,6 +3,8 @@ from threading import local
 import numpy as np
 import math
 import pandas as pd
+import warnings
+warnings.filterwarnings("ignore")
 
 # csv file, a, b
 def alg(df, risk_weight, distance_weight):
@@ -47,26 +49,33 @@ def alg(df, risk_weight, distance_weight):
     regional_sorting = regional_sorting[regional_sorting["next facility"] != -1]
     regional_recycling = regional_recycling[regional_recycling["using"] != -1]
 
-    final_frame = pd.DataFrame(columns=['id', 'latitude', 'longitude','type', 'amount', 'risk'])
+    order = ordering(waste_facility, local_sorting, [])
+    order = ordering(local_sorting, regional_sorting, order)
+    order = ordering(regional_sorting, regional_recycling, order)
 
-    final_frame = ordering(waste_facility, local_sorting, final_frame)
-    final_frame = ordering(local_sorting, regional_sorting, final_frame)
-    final_frame = ordering(regional_sorting, regional_recycling, final_frame)
-
-    final_frame = final_frame.drop(['next facility', 'next distance', 'using'], axis=1) 
-    return final_frame
+    return order
 
 def get_child_frame(parent_idx, all_possible_children):
     return all_possible_children[all_possible_children.iloc[:,6].eq(parent_idx)]
 
-def ordering(child_frame, parent_frame, order_frame):
+def ordering(child_frame, parent_frame, order):
     for idx_parent, row_parent in parent_frame.iterrows(): 
-        new_child = get_child_frame(idx_parent, child_frame)  # new child frame only with parent in it
-        new_frame = shortest_distance_order(new_child)
-        order_frame = pd.concat([order_frame, new_frame])
-        order_frame = order_frame.append(row_parent, ignore_index=True)
+        shortest_distance = None
+        shortest_distance_id = 0
+        for idx_child, row_child in child_frame.iterrows():
+            if idx_parent == row_child['next facility']:
+                if shortest_distance == None or shortest_distance > row_child['next distance']:
+                    if shortest_distance != None: 
+                        order.append(shortest_distance_id)
+                    shortest_distance = row_child['next distance']
+                    shortest_distance_id = row_child['id']
+                else:
+                    order.append(row_child['id'])
+        order.append(shortest_distance_id)
+        order.append(row_parent['id'])
+    
 
-    return order_frame
+    return order
 
 def shortest_distance_order(frame):
     id_list = []
@@ -77,13 +86,9 @@ def shortest_distance_order(frame):
             id_list.append(row["id"])
     id_list.append(last_id)
 
-    frame['id'] = pd.Categorical(
-        frame['id'],
-        categories=id_list,
-        ordered=True
-    )
-    new_frame = frame.sort_values('id')
-    return new_frame
+    frame['id'] = pd.Categorical(frame['id'], categories=id_list, ordered=True)
+    frame.sort_values('id', inplace = True)
+    return frame
 
 
 def risk(facility_risk, distance_travelled, amount_processing):
@@ -109,11 +114,9 @@ def score(a, b, risk, distance):
     return a*risk + b*distance
 
 def get_delta_distance(latLon1, latLon2):
-    
     R = 6371
     x1_lat, y1_lon = latLon1
     x2_lat, y2_lon = latLon2
-    #print(x1_lat, ",", y1_lon)
     latavg = (int(x1_lat) + int(x2_lat))/2
 
     x1 = R * int(y1_lon) * math.cos(latavg)
@@ -124,6 +127,7 @@ def get_delta_distance(latLon1, latLon2):
 
     return math.hypot(abs(x1-x2), abs(y1-y2))/1000
 
-df = pd.read_csv("./data/small/test_10_equal.csv",header=None,names = ['id','latitude','longitude','type','amount','risk'])
-alg(df, 0.9, 0.1)
-print()
+
+df = pd.read_csv("./data/small/test_100_recycle.csv",header=None,names = ['id','latitude','longitude','type','amount','risk'])
+id_order = alg(df, 1, 1)
+print(id_order)
