@@ -14,65 +14,71 @@ const Home = (props) => {
         points: [
             {
                 id: 1,
-                lat: 54,
-                lng: 4,
+                latitude: 54,
+                longitude: 4,
                 type: "waste",
-                plastic: 10000,
+                amount: 10000,
                 risk:  111,
             },
             {
                 id: 2,
-                lat: -25,
-                lng: 5,
+                latitude: -25,
+                longitude: 5,
                 type: "regional_sorting_facility",
-                plastic: 10000,
+                amount: 10000,
                 risk:  111,
             },
             {
                 id: 3,
-                lat: -25,
-                lng: 85,
+                latitude: -25,
+                longitude: 85,
                 type: "regional_recycling_facility",
-                plastic: 10000,
+                amount: 10000,
                 risk:  111,
             },
             {
                 id: 4,
-                lat: -50,
-                lng: 5,
+                latitude: -50,
+                longitude: 5,
                 type: "local_sorting_facility",
-                plastic: 10000,
+                amount: 10000,
                 risk:  111,
             },
             {
                 id: 5,
-                lat: -25,
-                lng: 125,
+                latitude: -25,
+                longitude: 125,
                 type: "local_recycling_facility",
-                plastic: 10000,
+                amount: 10000,
                 risk:  111,
             },
             {
                 id: 6,
-                lat: -75,
-                lng: 5,
+                latitude: -75,
+                longitude: 5,
                 type: "unknown",
-                plastic: 10000,
+                amount: 10000,
                 risk:  111,
             }
         ],
         route:[
             {
-                startLat: (Math.random() - 0.5) * 180,
-                startLng: (Math.random() - 0.5) * 360,
-                endLat: (Math.random() - 0.5) * 180,
-                endLng: (Math.random() - 0.5) * 360,
+                startLat: -25,
+                startLng: 5,
+                startType:"regional_sorting_facility",
+                endLat: -50,
+                endLng: 5,
+                endType:"local_sorting_facility",
+                distance: 10,
             },
             {
-                startLat: (Math.random() - 0.5) * 180,
+                startLat: 54,
                 startLng: (Math.random() - 0.5) * 360,
+                startType:"waste",
                 endLat: (Math.random() - 0.5) * 180,
                 endLng: (Math.random() - 0.5) * 360,
+                endType:"local_sorting_facility",
+                distance: 10,
             }
         ],
         data: {}
@@ -89,12 +95,14 @@ const Home = (props) => {
             <Globe
                 globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
                 pointsData={data.points}
+                pointLat={(point) => point.lat || point.latitude}
+                pointLng={(point) => point.lng || point.longitude}
                 onPointHover={(point) => setCurrentPoint(point)}
-                onPointClick={(point) => setCurrentPoint(point)}
                 pointColor={(point) => markerColors[point.type] || "#4dabf5"}
                 arcsData={data.route}
                 arcDashGap={() => .2}
                 arcDashAnimateTime={() => 2500}
+                arcColor={(data) => [markerColors[data.startType], markerColors[data.endType]]}
             />
         </div>
     );
