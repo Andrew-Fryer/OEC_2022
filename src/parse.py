@@ -9,7 +9,7 @@ def parse():
 
     for f in files:
         df = pd.read_csv(f, \
-            names=['ID', 'Latitude', 'Longitude', 'Type', 'Amount', 'Risk'])
+            names=['id', 'latitude', 'longitude', 'type', 'amount', 'risk'])
 
         file_name = os.path.basename(f)
         if dfs.get(file_name):
