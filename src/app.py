@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import os
 
 from parse import parse
 # from alg import alg
@@ -8,7 +9,7 @@ from output import save_file
 
 app = Flask(__name__)
 
-dfs = parse()
+dfs, file_to_path = parse()
 
 @app.route("/list_files", methods=['GET'])
 def list_files():
@@ -32,13 +33,15 @@ def do_alg():
     solution_file = save_file(solution, csv_file)
 
     # validate solution
-    QoR = validator(csv_file, solution_file)
+    def without_ext(f):
+        return os.path.splitext(f)[0]
+    QoR = validator(without_ext(file_to_path[csv_file]), without_ext(solution_file), a, b)
 
     # format for front end
     route = []
     prev = None
     for i, row in solution.iterrows():
-        if prev == None:
+        if prev is None:
             prev = row
         else:
             id = row['id']

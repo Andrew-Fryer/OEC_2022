@@ -6,6 +6,7 @@ from glob import glob
 def parse():
     files = glob("../data/**/*.csv")
     dfs = {}
+    file_to_path = {}
 
     for f in files:
         df = pd.read_csv(f, \
@@ -15,4 +16,7 @@ def parse():
         if dfs.get(file_name):
             print("warning!; duplicate file names (in different directories)")
         dfs[file_name] = df
-    return dfs
+
+        file_to_path[file_name] = f
+
+    return dfs, file_to_path
