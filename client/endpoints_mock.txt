@@ -23,12 +23,14 @@ Resoponse to ^^ points
     route: [
         {
             startNodeId,
-            endNodeId
-            distance
-            startLat: start node latitude
-            startLng: start node longitude
+            endNodeId,
+            distance,
+            startLat: start node latitude,
+            startLng: start node longitude,
+            startType: "waste",
             endLat: (Math.random() - 0.5) * 180,
             endLng: (Math.random() - 0.5) * 360,
+            endType: "local_sorting_facility",
         }
     ],
     data: {
