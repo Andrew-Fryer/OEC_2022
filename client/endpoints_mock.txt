@@ -12,7 +12,7 @@ send to you:
 
 Resoponse to ^^ points 
 {
-    [{
+    points: [{
         id,
         lng:longitude,
         lat:latitude,
@@ -20,13 +20,13 @@ Resoponse to ^^ points
         plastic (amount produced),
         risk (integer or decimal),
     }],
-    route: {
-        startNodeId,
-        endNodeId,
-        paths: [
-            {pointA, pointB (points being cpnnected (as much information as possible, or I can do some mapping))}
-        ]
-    },
+    route: [
+        {
+            startNodeId,
+            endNodeId
+            distance
+        }
+    ],
     data: {
         totalPlasticProduced,
         totalPlasticRecycled,
