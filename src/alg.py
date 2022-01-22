@@ -10,13 +10,13 @@ warnings.filterwarnings("ignore")
 def alg(df, risk_weight, distance_weight):
     # decide on optimal order for each specific set of waste
     # paths order [[local_sorting_idx, regional_sorting_idx, regional_recycling_idx],...]
-    waste_facility = df[df.iloc[:,3].str.equals('waste')]
+    waste_facility = df[df.iloc[:,3].str.contains('waste')]
     waste_facility.reset_index(drop=True, inplace=True)
-    local_sorting = df[df.iloc[:,3].str.equals('local_sorting_facility')]
+    local_sorting = df[df.iloc[:,3].str.contains('local_sorting_facility')]
     local_sorting.reset_index(drop=True, inplace=True)
-    regional_sorting = df[df.iloc[:,3].str.equals('regional_sorting_facility')]
+    regional_sorting = df[df.iloc[:,3].str.contains('regional_sorting_facility')]
     regional_sorting.reset_index(drop=True, inplace=True)
-    regional_recycling = df[df.iloc[:,3].str.equals('regional_recycling_facility')]
+    regional_recycling = df[df.iloc[:,3].str.contains('regional_recycling_facility')]
     regional_recycling.reset_index(drop=True, inplace=True)
 
     waste_facility["next facility"] = -1
@@ -53,7 +53,13 @@ def alg(df, risk_weight, distance_weight):
     order = ordering(local_sorting, regional_sorting, order)
     order = ordering(regional_sorting, regional_recycling, order)
 
-    return order
+    # print('here')
+    final_data = []
+    for i in order:
+        final_data.append(df.loc[i])
+    final_frame = pd.DataFrame(final_data, columns=['id', 'latitude', 'longitude','type', 'amount', 'risk'])
+    # print('now here')
+    return final_frame
 
 def get_child_frame(parent_idx, all_possible_children):
     return all_possible_children[all_possible_children.iloc[:,6].eq(parent_idx)]
@@ -128,6 +134,6 @@ def get_delta_distance(latLon1, latLon2):
     return math.hypot(abs(x1-x2), abs(y1-y2))/1000
 
 
-df = pd.read_csv("./data/small/test_100_recycle.csv",header=None,names = ['id','latitude','longitude','type','amount','risk'])
-id_order = alg(df, 1, 1)
-print(id_order)
+# df = pd.read_csv("./data/small/test_100_recycle.csv",header=None,names = ['id','latitude','longitude','type','amount','risk'])
+# id_order = alg(df, 1, 1)
+# print(id_order)

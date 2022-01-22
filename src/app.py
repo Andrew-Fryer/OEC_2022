@@ -37,7 +37,9 @@ def do_alg():
     def without_ext(f):
         return os.path.splitext(f)[0]
     print(without_ext(csv_file), without_ext(solution_file), a, b)
-    QoR, total_distance, total_plastic_lost = validator(without_ext(csv_file), without_ext(solution_file), a, b)
+    asdf = validator(without_ext(csv_file), without_ext(solution_file), a, b)
+    print(asdf)
+    QoR, total_distance, total_plastic_lost = asdf
 
     # format for front end
     route = []
