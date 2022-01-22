@@ -2,9 +2,10 @@ from flask import Flask, request, jsonify
 import os
 
 from parse import parse
-# from alg import alg
+from alg import alg
 from validator import validator, get_delta_distance
 from output import save_file
+# from evaluator import evaluate
 
 
 app = Flask(__name__)
@@ -28,8 +29,7 @@ def do_alg():
     csv_file = file_to_path[csv_file_name]
 
     # run algorithm
-    # result = alg(df, a, b)
-    solution = df
+    solution = alg(df, a, b)
 
     solution_file = save_file(solution, csv_file_name)
 
@@ -37,12 +37,12 @@ def do_alg():
     def without_ext(f):
         return os.path.splitext(f)[0]
     print(without_ext(csv_file), without_ext(solution_file), a, b)
-    QoR = validator(without_ext(csv_file), without_ext(solution_file), a, b)
+    QoR, total_distance, total_plastic_lost = validator(without_ext(csv_file), without_ext(solution_file), a, b)
 
     # format for front end
     route = []
     prev = None
-    total_distance = 0
+    # total_distance = 0
     for i, row in solution.iterrows():
         if prev is None:
             prev = row
@@ -62,7 +62,7 @@ def do_alg():
                 "endType": row['type'],
                 "distance": distance,
             })
-            total_distance += distance
+            # total_distance += distance
             prev = row
 
     return {
@@ -71,8 +71,8 @@ def do_alg():
         "data": {
             "totalPlasticProduced": 0,
             "totalPlasticRecycled": 0,
-            "totalPlasticLost": 0,
-            "totalPlasticInOcean": 0,
+            "totalPlasticLost": total_plastic_lost,
+            "totalPlasticInOcean": total_plastic_lost,
             "totalDistance": total_distance,
             "QoR": QoR,
         },

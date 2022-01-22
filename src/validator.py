@@ -123,7 +123,7 @@ def validator(map_file, solution_file, a, b):
     if is_valid:
         QoR = (a * total_loss + b * total_distance) #*run time
         print("QoR:", QoR)
-        return QoR
+        return QoR, total_distance, total_loss # this is the only line we changed
 # helper
 def convert_str_node(node_str):
     node_list = node_str.split(",")
