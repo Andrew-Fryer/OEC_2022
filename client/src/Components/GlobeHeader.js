@@ -30,6 +30,9 @@ const GlobeHeader = (props) => {
                     <Grid item xs={12}>
                         <Typography variant="h5">Point Data</Typography>
                     </Grid>
+                    <Grid item xs={12}>
+                        <Typography color="secondary">Hover over a point to see data</Typography>
+                    </Grid>
                     <Grid item xs={4}>
                         <PointDataField fieldName="id" description="ID"/>
                         <PointDataField fieldName="latitude" description="Latitude"/>
@@ -47,8 +50,8 @@ const GlobeHeader = (props) => {
                     <Grid item xs={12}>
                         <Typography variant="h5">Legend</Typography>
                     </Grid>
-                    {Object.entries(markerColors).map((pair) =><Typography style={{color: pair[1]}}>{pair[0]}</Typography>)}
-                    <Typography style={{color: "#4dabf5"}}>Unknown Facility</Typography>
+                    {Object.entries(markerColors).map((pair) =><Grid item xs={12} key={pair[0]}><Typography style={{color: pair[1]}}>{pair[0]}</Typography></Grid>)}
+                    <Grid item xs={12}><Typography style={{color: "#4dabf5"}}>Unknown Facility</Typography></Grid>
                 </Grid>
             </Grid>
         </Box>
