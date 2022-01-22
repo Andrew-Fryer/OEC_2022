@@ -13,6 +13,8 @@ import MenuItem from '@mui/material/MenuItem';
 
 const InputParams = (props) => {
 
+  const { onSetData } = props;
+
   const [csvFiles, setCSVFiles] = useState([]);
   const [selectedCSVFile, setSelectedCSVFile] = useState(0);
 
@@ -20,15 +22,13 @@ const InputParams = (props) => {
 
   useEffect(() => {
     async function getCSVFiles() {
-      // TODO: HIT BACKEND
+      // Hits backend for list of CSV files
       const res = await fetch('/list_files', {
         method: 'GET',
       });
       const resBody = await res.json();
-      console.log(resBody)
       // TODO ADD ERROR HANDLING
       setCSVFiles(resBody);
-      // setCSVFiles(["csv1","csv2","csv3","csv4"]);
     }
     getCSVFiles();
   }, []);
@@ -36,15 +36,17 @@ const InputParams = (props) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      a: data.get('a'),
-      b: data.get('b'),
-      csv: csvFiles[selectedCSVFile],
-    });
-    // TODO: HIT BACKEND
+    
+    // Hits backend
     const res = await fetch('/alg?a=' + data.get('a') + '&b=' + data.get('a') +'&csv_file=' + csvFiles[selectedCSVFile], {
       method: 'GET',
     });
+
+    // TODO check API works
+    const resBody = await res.json();
+    // onSetData(resBody);
+    onSetData("Hello");
+
   };
 
   const handleChange = (event) => {
