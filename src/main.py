@@ -2,6 +2,7 @@ from parse import parse
 from alg import alg
 from plot import plot
 
+
 a = 0.6
 b = 0.4
 

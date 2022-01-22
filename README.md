@@ -21,6 +21,7 @@ Team Sonic
 - data
 (contains input data for the algorithm)
 - src
+  - app.py
   - main.py
   - parse.py
   - alg.py
@@ -36,6 +37,8 @@ git clone git@github.com:Andrew-Fryer/OEC_2022.git
 cd OEC_2022
 pip install -r requirements.txt
 cd src
-python main.py
+export FLASK_APP=app
+python -m flask run # runs backend
+python main.py # runs ......
 ```
 Please view output files in the `./output` directory.
