@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Globe from 'react-globe.gl';
 import GlobeHeader from '../Components/GlobeHeader';
+import InputParams from '../Components/InputParams';
 
 const Home = (props) => {
 
@@ -62,6 +63,7 @@ const Home = (props) => {
 
     return (
         <div>
+            <InputParams/>
             <GlobeHeader markerColors={markerColors} currentPoint={currentPoint} />
 
             <Globe
