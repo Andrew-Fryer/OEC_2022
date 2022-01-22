@@ -1,33 +1,74 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Globe from 'react-globe.gl';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-const Home = () => {
+import GlobeHeader from '../Components/GlobeHeader';
+
+const Home = (props) => {
+
+    const {markerColors} = props;
+
+    const [currentPoint, setCurrentPoint] = useState(null);
+
+    // hit API
     const myData=[
         {
             id: 1,
-            name: "plant1",
-            lat: (Math.random() - 0.5) * 180,
-            lng: (Math.random() - 0.5) * 360,
-            type: "recycling",
+            lat: 54,
+            lng: 4,
+            type: "waste",
+            plastic: 10000,
+            risk:  111,
+        },
+        {
+            id: 2,
+            lat: -25,
+            lng: 5,
+            type: "regional_sorting_facility",
+            plastic: 10000,
+            risk:  111,
+        },
+        {
+            id: 3,
+            lat: -25,
+            lng: 85,
+            type: "regional_recycling_facility",
+            plastic: 10000,
+            risk:  111,
+        },
+        {
+            id: 4,
+            lat: -50,
+            lng: 5,
+            type: "local_sorting_facility",
+            plastic: 10000,
+            risk:  111,
+        },
+        {
+            id: 5,
+            lat: -25,
+            lng: 125,
+            type: "local_recycling_facility",
+            plastic: 10000,
+            risk:  111,
+        },
+        {
+            id: 6,
+            lat: -75,
+            lng: 5,
+            type: "unknown",
             plastic: 10000,
             risk:  111,
         }
-    ]
+    ];
+
     return (
         <div>
-            <Box style={{position: "absolute", backgroundColor: "white"}}>
-                <Typography>Point Data</Typography>
-                <Typography>Latitude:</Typography>
-                <Typography></Typography>
-            </Box>
+            <GlobeHeader markerColors={markerColors} currentPoint={currentPoint} />
+
             <Globe
                 pointsData={myData}
-                onPointHover={(point, prevPoint) => {
-                    console.log(point)
-                    console.log(prevPoint)
-                }}
-                onPointClick={(point) => console.log(point)}
+                onPointHover={(point) => setCurrentPoint(point)}
+                onPointClick={(point) => setCurrentPoint(point)}
+                pointColor={(point) => markerColors[point.type] || "#4dabf5"}
             />
         </div>
     );
