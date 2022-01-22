@@ -5,33 +5,47 @@ import pandas as pd
 # csv file, a, b
 def alg(df, risk_weight, distance_weight):
     # decide on optimal order for each specific set of waste
+    # paths order [[local_sorting_idx, regional_sorting_idx, regional_recycling_idx],...]
     paths = []
-    waste_facility = []
-    local_sorting = []
-    regional_sorting = []
-    regional_recycling = []
 
-    for i in range(len(waste_facility)):
-        temp = []
-        temp.append(optimal_facility())    
+    waste_facility = df[df.iloc[:,3].str.contains('waste')]
+    local_sorting = df[df.iloc[:,3].str.contains('local_sorting_facility')]
+    regional_sorting = df[df.iloc[:,3].str.contains('regional_sorting_facility')]
+    regional_recycling = df[df.iloc[:,3].str.contains('regional_recycling_facility')]
 
-    return 0
+    for idx, row in waste_facility.iterrows():
+        temp = [idx]
+        # Waste to local sorting
+        local_sorting_idx = optimal_facility(row, local_sorting, risk_weight, distance_weight)
+        temp.append(local_sorting_idx)
+
+        # local sorting to regional sorting
+        regional_sorting_idx = optimal_facility(local_sorting.iloc[local_sorting_idx], regional_sorting, risk_weight, distance_weight)
+        temp.append(regional_sorting_idx)
+
+        # local sorting to regional sorting
+        regional_recycling_idx = optimal_facility(regional_sorting.iloc[regional_sorting_idx], regional_recycling, risk_weight, distance_weight)
+        temp.append(regional_recycling_idx)
+
+        paths.append(temp)
+
+    return paths
 
 def risk(facility_risk, distance_travelled, amount_processing):
     return facility_risk*distance_travelled*amount_processing
 
-# moving waste to local sorting facility -> sortinf facility as dictionary with row elements
-def optimal_facility(w_long, w_lat, w_amount, sorting, a, b):
+# moving waste to local sorting facility 
+def optimal_facility(facility1, facility2, a, b):
     scores = []
-    for s in sorting:
-        distance = get_delta_distance([w_long, w_lat],[s["latitude"], s["longitude"]])
-        risk_value = risk(s["risk"], distance, w_amount)
+    for idx, row in facility2.iterrows():
+        distance = get_delta_distance([facility1["latitude"], facility1["longitude"]],[row["latitude"], row["longitude"]])
+        risk_value = risk(row["risk"], distance, facility1["amount"])
         scores.append(score(a, b, risk_value, distance))
     # greedily chooose minimum score for facility to go to
     min_score = min(scores)
     min_score_idx = scores.index(min_score)
-    # return the facility (as a dictionary) that minimizes score
-    return sorting[min_score_idx]
+    # return row index for specfied facility2 dataframe
+    return min_score_idx
 
 
 def score(a, b, risk, distance):
@@ -52,3 +66,7 @@ def get_delta_distance(latLon1, latLon2):
     y2 = R * int(x2_lat)
 
     return math.hypot(abs(x1-x2), abs(y1-y2))/1000
+
+
+df = pd.read_csv("./data/small/test_10_equal.csv",header=None,names = ['id','latitude','longitude','type','amount','risk'])
+print(alg(df, 1, 1))
