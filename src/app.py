@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import os
 
 from parse import parse
-# from alg import alg
+from alg import alg
 from validator import validator, get_delta_distance
 from output import save_file
 # from evaluator import evaluate
