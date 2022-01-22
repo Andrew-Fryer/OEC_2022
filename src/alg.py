@@ -48,8 +48,8 @@ def alg(df, risk_weight, distance_weight):
     local_sorting = local_sorting[local_sorting["next facility"] != -1]
     regional_sorting = regional_sorting[regional_sorting["next facility"] != -1]
     regional_recycling = regional_recycling[regional_recycling["using"] != -1]
-
-    order = ordering(waste_facility, local_sorting, [])
+    waste_facility.drop(index=waste_facility.index[0], axis=0, inplace=True)
+    order = ordering(waste_facility, local_sorting, [0])
     order = ordering(local_sorting, regional_sorting, order)
     order = ordering(regional_sorting, regional_recycling, order)
 
@@ -134,6 +134,6 @@ def get_delta_distance(latLon1, latLon2):
     return math.hypot(abs(x1-x2), abs(y1-y2))/1000
 
 
-# df = pd.read_csv("./data/small/test_100_recycle.csv",header=None,names = ['id','latitude','longitude','type','amount','risk'])
-# id_order = alg(df, 1, 1)
-# print(id_order)
+df = pd.read_csv("./data/small/test_100_recycle.csv",header=None,names = ['id','latitude','longitude','type','amount','risk'])
+id_order = alg(df, 1, 1)
+print(id_order)
