@@ -74,7 +74,7 @@ const InputParams = (props) => {
               onChange={handleChange}
               label="Select CSV File"
             >
-              {csvFiles.map((fileName, index) => <MenuItem value={index}>{fileName}</MenuItem>)}
+              {csvFiles.map((fileName, index) => <MenuItem key={index} value={index}>{fileName}</MenuItem>)}
             </Select>
             : "Getting CSV Files"
           }
