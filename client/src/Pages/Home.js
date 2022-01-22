@@ -12,6 +12,13 @@ const Home = (props) => {
 
     const [data, setData] = useState(false);
 
+    const getPointRadius = (point) => {
+        // if start or end node
+        if (point.id === data.points[0].id || point.id === data.points[data.points.length-1].id) return 0.75
+
+        // else 
+        return 0.25;
+    }
    
     return (
         <div>
@@ -24,6 +31,8 @@ const Home = (props) => {
                     id="/results"
                     globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
                     pointsData={data.points}
+                    pointRadius={(point) => getPointRadius(point)}
+                    pointAltitude={(point) => point.id === data.points[0].id ? .1 : .05}
                     pointLat={(point) => point.lat || point.latitude}
                     pointLng={(point) => point.lng || point.longitude}
                     onPointHover={(point) => setCurrentPoint(point)}

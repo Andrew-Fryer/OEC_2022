@@ -18,7 +18,6 @@ const GlobeHeader = (props) => {
     
     const PointDataField = (props) => {
         const {fieldName, description} = props;
-        if (fieldName === "risk") return <Typography color="primary"><b>{description}</b>: {currentPoint ? currentPoint.risk +"%" : "Nothing Selected"}</Typography>
         return <Typography color="primary"><b>{description}</b>: {currentPoint ? currentPoint[fieldName] : "Nothing Selected"}</Typography>
     }
 
@@ -31,7 +30,7 @@ const GlobeHeader = (props) => {
                         <Typography variant="h5">Point Data</Typography>
                     </Grid>
                     <Grid item xs={12}>
-                        <Typography color="secondary">Hover over a point to see data</Typography>
+                        <Typography color="secondary">Hover over a point to see data. Both start and end facilities are thicker than all others, and the start facility is also twice as tall as the others.</Typography>
                     </Grid>
                     <Grid item xs={4}>
                         <PointDataField fieldName="id" description="ID"/>
