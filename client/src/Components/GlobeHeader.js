@@ -25,6 +25,7 @@ const GlobeHeader = (props) => {
     return (
         <Box>
             <Grid container className={classes.pointData}>
+                {/* TODO FIX POINT DATA DISPLAY OR REMOVE */}
                 <Grid item container xs={9}>
                     <Grid item xs={12}>
                         <Typography variant="h5">Point Data</Typography>
@@ -46,6 +47,7 @@ const GlobeHeader = (props) => {
                     <Grid item xs={12}>
                         <Typography variant="h5">Legend</Typography>
                     </Grid>
+                    {/* TODO ADD LEGEND */}
                     {/* {markerColors.map((color, index) => index)} */}
                 </Grid>
             </Grid>
