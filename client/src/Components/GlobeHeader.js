@@ -15,8 +15,7 @@ const useStyles = makeStyles((theme) => ({
 const GlobeHeader = (props) => {
     const {markerColors, currentPoint} = props;
     const classes = useStyles();
-
-
+    
     const PointDataField = (props) => {
         const {fieldName, description} = props;
         if (fieldName === "risk") return <Typography color="primary"><b>{description}</b>: {currentPoint ? currentPoint.risk +"%" : "Nothing Selected"}</Typography>
@@ -48,8 +47,8 @@ const GlobeHeader = (props) => {
                     <Grid item xs={12}>
                         <Typography variant="h5">Legend</Typography>
                     </Grid>
-                    {/* TODO ADD LEGEND */}
-                    {/* {markerColors.map((color, index) => index)} */}
+                    {Object.entries(markerColors).map((pair) =><Typography style={{color: pair[1]}}>{pair[0]}</Typography>)}
+                    <Typography style={{color: "#4dabf5"}}>Unknown Facility</Typography>
                 </Grid>
             </Grid>
         </Box>
