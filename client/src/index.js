@@ -7,6 +7,9 @@ import {HashRouter} from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// NAME OF SITE
+document.title=process.env.REACT_APP_SITE_NAME;
+
 ReactDOM.render(
     <React.StrictMode><HashRouter><App /></HashRouter>
   </React.StrictMode>,

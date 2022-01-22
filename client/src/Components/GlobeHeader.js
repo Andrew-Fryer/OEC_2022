@@ -18,7 +18,6 @@ const GlobeHeader = (props) => {
     
     const PointDataField = (props) => {
         const {fieldName, description} = props;
-        if (fieldName === "risk") return <Typography color="primary"><b>{description}</b>: {currentPoint ? currentPoint.risk +"%" : "Nothing Selected"}</Typography>
         return <Typography color="primary"><b>{description}</b>: {currentPoint ? currentPoint[fieldName] : "Nothing Selected"}</Typography>
     }
 
@@ -29,6 +28,9 @@ const GlobeHeader = (props) => {
                 <Grid item container xs={9}>
                     <Grid item xs={12}>
                         <Typography variant="h5">Point Data</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography color="secondary">Hover over a point to see data. Both start and end facilities are thicker than all others, and the start facility is also twice as tall as the others.</Typography>
                     </Grid>
                     <Grid item xs={4}>
                         <PointDataField fieldName="id" description="ID"/>
@@ -47,8 +49,8 @@ const GlobeHeader = (props) => {
                     <Grid item xs={12}>
                         <Typography variant="h5">Legend</Typography>
                     </Grid>
-                    {Object.entries(markerColors).map((pair) =><Typography style={{color: pair[1]}}>{pair[0]}</Typography>)}
-                    <Typography style={{color: "#4dabf5"}}>Unknown Facility</Typography>
+                    {Object.entries(markerColors).map((pair) =><Grid item xs={12} key={pair[0]}><Typography style={{color: pair[1]}}>{pair[0]}</Typography></Grid>)}
+                    <Grid item xs={12}><Typography style={{color: "#4dabf5"}}>Unknown Facility</Typography></Grid>
                 </Grid>
             </Grid>
         </Box>
