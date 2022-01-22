@@ -29,8 +29,7 @@ def do_alg():
     csv_file = file_to_path[csv_file_name]
 
     # run algorithm
-    # result = alg(df, a, b)
-    solution = df
+    solution = alg(df, a, b)
 
     solution_file = save_file(solution, csv_file_name)
 

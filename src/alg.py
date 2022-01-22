@@ -123,7 +123,3 @@ def get_delta_distance(latLon1, latLon2):
     y2 = R * int(x2_lat)
 
     return math.hypot(abs(x1-x2), abs(y1-y2))/1000
-
-
-df = pd.read_csv("./data/small/test_10_equal.csv",header=None,names = ['id','latitude','longitude','type','amount','risk'])
-print(alg(df, 1, 1))
