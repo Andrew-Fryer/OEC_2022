@@ -1,0 +1,39 @@
+GET CSV file names
+receive:
+["csv_name1", "csv_name2", "csv_name3"]
+
+POST for user input
+send to you:
+{
+    a: decimal_value 0-1,
+    b: decimal_value 0-1,
+    csv: name of csv file
+}
+
+Resoponse to ^^ points 
+{
+    [{
+        id,
+        name,
+        longitude,
+        latitude,
+        type (recycling, etc),
+        plastic (amount produced),
+        risk (integer or decimal),
+    }],
+    route: {
+        startNodeId,
+        endNodeId,
+        paths: [
+            {pointA, pointB (points being cpnnected (as much information as possible, or I can do some mapping))}
+        ]
+    },
+    data: {
+        totalPlasticProduced,
+        totalPlasticRecycled,
+        totalPlasticLost,
+        totalPlasticInOcean (not sure if this is different from above),
+        totalDistance,
+        QoR
+    }
+}
