@@ -1,7 +1,13 @@
 import pandas as pd
 import numpy as np
+import os
+from glob import glob
 
 def parse():
-    df = pd.read_csv("../provided/small/test_10_equal.csv")
+    # files = glob("provided/**/*.csv")
+    df = pd.read_csv("provided/small/test_10_equal.csv", \
+        names=['ID', 'Latitude', 'Longitude', 'Type', 'Amount', 'Risk'])
 
-    return df
+    return {
+        "test_10_equal.csv": df
+    }
