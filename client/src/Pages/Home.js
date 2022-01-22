@@ -89,7 +89,7 @@ const Home = (props) => {
     return (
         <div>
             {/* TODO change myData to data */}
-            <InputParams id="/input" onSetData={(data) => setData(myData)} />
+            <InputParams id="/input" onSetData={(data) => setData(data)} />
             <GlobeHeader id="/globe" markerColors={markerColors} currentPoint={currentPoint} />
 
             <Globe

@@ -44,8 +44,9 @@ const InputParams = (props) => {
 
     // TODO check API works
     const resBody = await res.json();
-    // onSetData(resBody);
-    onSetData("Hello");
+    console.log(resBody)
+    onSetData(resBody);
+    // onSetData("Hello");
 
   };
 
