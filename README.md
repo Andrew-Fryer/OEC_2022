@@ -21,6 +21,7 @@ Team Sonic
 - data
 (contains input data for the algorithm)
 - src
+  - app.py
   - main.py
   - parse.py
   - alg.py
