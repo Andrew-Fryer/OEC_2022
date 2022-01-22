@@ -8,13 +8,13 @@ import pandas as pd
 def alg(df, risk_weight, distance_weight):
     # decide on optimal order for each specific set of waste
     # paths order [[local_sorting_idx, regional_sorting_idx, regional_recycling_idx],...]
-    waste_facility = df[df.iloc[:,3].str.contains('waste')]
+    waste_facility = df[df.iloc[:,3].str.equals('waste')]
     waste_facility.reset_index(drop=True, inplace=True)
-    local_sorting = df[df.iloc[:,3].str.contains('local_sorting_facility')]
+    local_sorting = df[df.iloc[:,3].str.equals('local_sorting_facility')]
     local_sorting.reset_index(drop=True, inplace=True)
-    regional_sorting = df[df.iloc[:,3].str.contains('regional_sorting_facility')]
+    regional_sorting = df[df.iloc[:,3].str.equals('regional_sorting_facility')]
     regional_sorting.reset_index(drop=True, inplace=True)
-    regional_recycling = df[df.iloc[:,3].str.contains('regional_recycling_facility')]
+    regional_recycling = df[df.iloc[:,3].str.equals('regional_recycling_facility')]
     regional_recycling.reset_index(drop=True, inplace=True)
 
     waste_facility["next facility"] = -1
@@ -78,9 +78,9 @@ def shortest_distance_order(frame):
     id_list.append(last_id)
 
     frame['id'] = pd.Categorical(
-    frame['id'], 
-    categories=id_list, 
-    ordered=True
+        frame['id'],
+        categories=id_list,
+        ordered=True
     )
     new_frame = frame.sort_values('id')
     return new_frame
@@ -123,3 +123,7 @@ def get_delta_distance(latLon1, latLon2):
     y2 = R * int(x2_lat)
 
     return math.hypot(abs(x1-x2), abs(y1-y2))/1000
+
+df = pd.read_csv("./data/small/test_10_equal.csv",header=None,names = ['id','latitude','longitude','type','amount','risk'])
+alg(df, 0.9, 0.1)
+print()
