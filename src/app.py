@@ -20,31 +20,37 @@ def list_files():
 @app.route("/alg", methods=['GET'])
 def do_alg():
     args = request.args.to_dict()
-    a = args.get('a')
-    b = args.get('b')
-    csv_file = args.get('csv_file')
+    a = float(args.get('a'))
+    b = float(args.get('b'))
+    csv_file_name = args.get('csv_file')
 
-    df = dfs[csv_file]
+    df = dfs[csv_file_name]
+    csv_file = file_to_path[csv_file_name]
 
     # run algorithm
     # result = alg(df, a, b)
     solution = df
 
-    solution_file = save_file(solution, csv_file)
+    solution_file = save_file(solution, csv_file_name)
 
     # validate solution
     def without_ext(f):
         return os.path.splitext(f)[0]
-    QoR = validator(without_ext(file_to_path[csv_file]), without_ext(solution_file), a, b)
+    print(without_ext(csv_file), without_ext(solution_file), a, b)
+    QoR = validator(without_ext(csv_file), without_ext(solution_file), a, b)
 
     # format for front end
     route = []
     prev = None
+    total_distance = 0
     for i, row in solution.iterrows():
         if prev is None:
             prev = row
         else:
-            id = row['id']
+            distance = get_delta_distance(\
+                (prev['latitude'], prev['longitude']), \
+                (row['latitude'], row['longitude'])
+            )
             route.append({
                 "startNodeId": prev['id'],
                 "startLat": prev['latitude'],
@@ -54,9 +60,9 @@ def do_alg():
                 "endLat": row['latitude'],
                 "endLng": row['longitude'],
                 "endType": row['type'],
-                "distance": get_delta_distance((prev['latitude'], prev['longitude']), \
-                    (row['latitude'], row['longitude']))
+                "distance": distance,
             })
+            total_distance += distance
             prev = row
 
     return {
@@ -67,7 +73,7 @@ def do_alg():
             "totalPlasticRecycled": 0,
             "totalPlasticLost": 0,
             "totalPlasticInOcean": 0,
-            "totalDistance": 0,
+            "totalDistance": total_distance,
             "QoR": QoR,
         },
     }
