@@ -7,5 +7,5 @@ local_sorting = df[df.iloc[:,3].str.contains('local_sorting_facility')]
 regional_sorting = df[df.iloc[:,3].str.contains('regional_sorting_facility')]
 regional_recycling = df[df.iloc[:,3].str.contains('regional_recycling_facility')]
 
-print(local_sorting)
+print(waste[[0]].to_list())
 
