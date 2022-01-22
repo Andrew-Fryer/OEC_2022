@@ -2,7 +2,7 @@ GET CSV file names
 receive:
 ["csv_name1", "csv_name2", "csv_name3"]
 
-POST for user input
+GET for user input
 send to you:
 {
     a: decimal_value 0-1,
