@@ -47,11 +47,13 @@ def do_alg():
             id = row['id']
             route.append({
                 "startNodeId": prev['id'],
-                "endNodeId": row['id'],
                 "startLat": prev['latitude'],
                 "startLng": prev['longitude'],
+                "startType": prev['type'],
+                "endNodeId": row['id'],
                 "endLat": row['latitude'],
                 "endLng": row['longitude'],
+                "endType": row['type'],
                 "distance": get_delta_distance((prev['latitude'], prev['longitude']), \
                     (row['latitude'], row['longitude']))
             })
