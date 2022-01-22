@@ -21,24 +21,29 @@ const InputParams = (props) => {
   useEffect(() => {
     async function getCSVFiles() {
       // TODO: HIT BACKEND
-      // const res = await fetch('/api/files', {
-      //   method: 'GET',
-      // });
-      // const resBody = await res.json();
-      // setCSVFiles(resBody.files);
-      setCSVFiles(["csv1","csv2","csv3","csv4"]);
+      const res = await fetch('/list_files', {
+        method: 'GET',
+      });
+      const resBody = await res.json();
+      console.log(resBody)
+      // TODO ADD ERROR HANDLING
+      setCSVFiles(resBody);
+      // setCSVFiles(["csv1","csv2","csv3","csv4"]);
     }
     getCSVFiles();
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // TODO: HIT BACKEND
     console.log({
       a: data.get('a'),
       b: data.get('b'),
       csv: csvFiles[selectedCSVFile],
+    });
+    // TODO: HIT BACKEND
+    const res = await fetch('/alg?a=' + data.get('a') + '&b=' + data.get('a') +'&csv_file=' + csvFiles[selectedCSVFile], {
+      method: 'GET',
     });
   };
 
